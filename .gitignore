@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+**/node_modules/
+
+# Next.js
+.next/
+**/.next/
+out/
+**/out/
+
+# env
+.env
+.env.local
+.env.*.local
+
+# logs
+*.log
+logs/
+**/logs/
+.pnpm-debug.log*
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
