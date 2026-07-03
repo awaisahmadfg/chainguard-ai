@@ -72,7 +72,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <AuthButton className="mb-6 hover:bg-emerald-600">
+          <AuthButton className="mb-6 hover:bg-emerald-600" href="/authenticated">
             Sign In
             <AuthIcon className="size-[18px]" name="arrow-right" />
           </AuthButton>

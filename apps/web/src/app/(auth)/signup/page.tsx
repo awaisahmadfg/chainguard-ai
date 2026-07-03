@@ -49,7 +49,7 @@ export default function SignUpPage() {
         />
 
         <div className="pt-2">
-          <AuthButton>
+          <AuthButton href="/authenticated">
             Create Account
             <AuthIcon className="size-[18px]" name="arrow-right" />
           </AuthButton>

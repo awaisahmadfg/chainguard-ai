@@ -35,7 +35,10 @@ export default function WalletSignaturePage() {
           </div>
 
           <div className="mb-6 flex w-full flex-col gap-3">
-            <AuthButton className="font-bold active:scale-[0.98]">
+            <AuthButton
+              className="font-bold active:scale-[0.98]"
+              href="/authenticated"
+            >
               <AuthIcon className="size-[18px]" name="signature" />
               Sign Message
             </AuthButton>
