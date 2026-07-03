@@ -5,6 +5,7 @@ import { AuthDivider } from "@/components/auth/auth-divider";
 import { AuthIcon } from "@/components/auth/auth-icons";
 import { AuthInput } from "@/components/auth/auth-input";
 import { AuthLogo } from "@/components/auth/auth-logo";
+import { PasswordInput } from "@/components/auth/password-input";
 
 export default function SignUpPage() {
   return (
@@ -33,19 +34,17 @@ export default function SignUpPage() {
           placeholder="name@company.com"
           type="email"
         />
-        <AuthInput
+        <PasswordInput
           icon="lock"
           label="Password"
           name="password"
           placeholder="Create a secure password"
-          type="password"
         />
-        <AuthInput
+        <PasswordInput
           icon="refresh"
           label="Confirm Password"
           name="confirmPassword"
           placeholder="Confirm your password"
-          type="password"
         />
 
         <div className="pt-2">

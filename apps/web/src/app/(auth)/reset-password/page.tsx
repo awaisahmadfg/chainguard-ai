@@ -1,40 +1,7 @@
 import Link from "next/link";
 import { AuthButton } from "@/components/auth/auth-button";
 import { AuthIcon } from "@/components/auth/auth-icons";
-
-function PasswordField({
-  id,
-  label,
-}: {
-  id: string;
-  label: string;
-}) {
-  return (
-    <div className="space-y-2">
-      <label
-        className="block text-[11px] font-semibold uppercase leading-none tracking-[0.05em] text-[#bbcabf]"
-        htmlFor={id}
-      >
-        {label}
-      </label>
-      <div className="relative">
-        <input
-          className="h-10 w-full rounded border border-[#27272a] bg-[#09090b] py-2 pl-4 pr-10 text-sm leading-5 text-[#e5e1e4] outline-none transition-all placeholder:text-[#bbcabf]/30 focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
-          id={id}
-          placeholder="••••••••••••"
-          required
-          type="password"
-        />
-        <button
-          className="absolute right-3 top-1/2 flex -translate-y-1/2 items-center text-[#bbcabf]/70 transition-colors hover:text-emerald-400"
-          type="button"
-        >
-          <AuthIcon className="size-5" name="eye" />
-        </button>
-      </div>
-    </div>
-  );
-}
+import { PasswordInput } from "@/components/auth/password-input";
 
 export default function ResetPasswordPage() {
   return (
@@ -83,8 +50,22 @@ export default function ResetPasswordPage() {
           </div>
 
           <form className="space-y-6">
-            <PasswordField id="new-password" label="New Password" />
-            <PasswordField id="confirm-password" label="Confirm Password" />
+            <PasswordInput
+              id="new-password"
+              label="New Password"
+              labelClassName="block text-[11px] font-semibold uppercase leading-none tracking-[0.05em] text-[#bbcabf]"
+              name="newPassword"
+              placeholder="••••••••••••"
+              showLeadingIcon={false}
+            />
+            <PasswordInput
+              id="confirm-password"
+              label="Confirm Password"
+              labelClassName="block text-[11px] font-semibold uppercase leading-none tracking-[0.05em] text-[#bbcabf]"
+              name="confirmPassword"
+              placeholder="••••••••••••"
+              showLeadingIcon={false}
+            />
 
             <div className="space-y-2">
               <div className="flex h-1 w-full gap-1">

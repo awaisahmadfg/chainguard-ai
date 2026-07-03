@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AuthButton } from "@/components/auth/auth-button";
 import { AuthDivider } from "@/components/auth/auth-divider";
 import { AuthIcon } from "@/components/auth/auth-icons";
+import { PasswordInput } from "@/components/auth/password-input";
 
 export default function LoginPage() {
   return (
@@ -41,35 +42,22 @@ export default function LoginPage() {
             />
           </div>
 
-          <div className="mb-6 flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <label
-                className="text-[13px] font-medium leading-[18px] tracking-[0.01em] text-[#bbcabf]"
-                htmlFor="password"
-              >
-                Password
-              </label>
+          <div className="mb-6">
+            <PasswordInput
+              action={
               <Link
                 className="text-[13px] font-medium leading-[18px] tracking-[0.01em] text-emerald-500 transition-colors hover:text-emerald-300"
                 href="/forgot-password"
               >
                 Forgot Password?
               </Link>
-            </div>
-            <div className="relative">
-              <input
-                className="w-full rounded border border-[#27272a] bg-[#09090b] px-4 py-2 pr-10 text-sm text-[#e5e1e4] outline-none transition-all placeholder:text-[#bbcabf]/50 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
-                id="password"
-                placeholder="••••••••••••"
-                type="password"
-              />
-              <button
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#bbcabf] transition-colors hover:text-[#e5e1e4]"
-                type="button"
-              >
-                <AuthIcon className="size-5" name="eye" />
-              </button>
-            </div>
+              }
+              label="Password"
+              labelClassName="text-[13px] font-medium leading-[18px] tracking-[0.01em] text-[#bbcabf]"
+              name="password"
+              placeholder="••••••••••••"
+              showLeadingIcon={false}
+            />
           </div>
 
           <AuthButton className="mb-6 hover:bg-emerald-600" href="/authenticated">

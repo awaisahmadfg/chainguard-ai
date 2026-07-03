@@ -5,6 +5,7 @@ type AuthIconProps = {
     | "chevron-right"
     | "check-circle"
     | "eye"
+    | "eye-off"
     | "google"
     | "info"
     | "key"
@@ -233,6 +234,40 @@ export function AuthIcon({ name, className = "size-5" }: AuthIconProps) {
         />
         <path
           d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+        />
+      </svg>
+    );
+  }
+
+  if (name === "eye-off") {
+    return (
+      <svg className={className} fill="none" viewBox="0 0 24 24">
+        <path
+          d="m3 3 18 18"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeWidth="2"
+        />
+        <path
+          d="M10.6 10.6a2 2 0 0 0 2.8 2.8"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+        />
+        <path
+          d="M9.9 5.2A9.7 9.7 0 0 1 12 5c6 0 9.5 7 9.5 7a16.8 16.8 0 0 1-2.2 3.2"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+        />
+        <path
+          d="M6.7 6.7C4 8.4 2.5 12 2.5 12s3.5 7 9.5 7c1.7 0 3.2-.6 4.4-1.4"
           stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
