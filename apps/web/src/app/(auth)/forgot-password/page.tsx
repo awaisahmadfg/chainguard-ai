@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { AuthButton } from "@/components/auth/auth-button";
+import { ForgotPasswordForm } from "@/components/auth/forgot-password-form";
 import { AuthIcon } from "@/components/auth/auth-icons";
-import { AuthInput } from "@/components/auth/auth-input";
 
 export default function ForgotPasswordPage() {
   return (
@@ -34,22 +33,7 @@ export default function ForgotPasswordPage() {
           </p>
         </div>
 
-        <form className="flex flex-col gap-6">
-          <AuthInput
-            icon="mail"
-            label="Email Address"
-            name="email"
-            placeholder="operator@chainguard.ai"
-            type="email"
-          />
-
-          <div className="mt-2">
-            <AuthButton className="rounded-md py-2.5 font-bold hover:bg-emerald-300">
-              Send Reset Link
-              <AuthIcon className="size-[18px]" name="arrow-right" />
-            </AuthButton>
-          </div>
-        </form>
+        <ForgotPasswordForm />
 
         <div className="mt-8 text-center">
           <Link

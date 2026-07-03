@@ -3,9 +3,8 @@ import { AuthButton } from "@/components/auth/auth-button";
 import { AuthCard } from "@/components/auth/auth-card";
 import { AuthDivider } from "@/components/auth/auth-divider";
 import { AuthIcon } from "@/components/auth/auth-icons";
-import { AuthInput } from "@/components/auth/auth-input";
 import { AuthLogo } from "@/components/auth/auth-logo";
-import { PasswordInput } from "@/components/auth/password-input";
+import { SignupForm } from "@/components/auth/signup-form";
 
 export default function SignUpPage() {
   return (
@@ -20,40 +19,7 @@ export default function SignUpPage() {
         </p>
       </div>
 
-      <form className="space-y-4">
-        <AuthInput
-          icon="user"
-          label="Full Name"
-          name="fullName"
-          placeholder="Enter your full name"
-        />
-        <AuthInput
-          icon="mail"
-          label="Email Address"
-          name="email"
-          placeholder="name@company.com"
-          type="email"
-        />
-        <PasswordInput
-          icon="lock"
-          label="Password"
-          name="password"
-          placeholder="Create a secure password"
-        />
-        <PasswordInput
-          icon="refresh"
-          label="Confirm Password"
-          name="confirmPassword"
-          placeholder="Confirm your password"
-        />
-
-        <div className="pt-2">
-          <AuthButton href="/authenticated">
-            Create Account
-            <AuthIcon className="size-[18px]" name="arrow-right" />
-          </AuthButton>
-        </div>
-      </form>
+      <SignupForm />
 
       <div className="my-6">
         <AuthDivider label="Or sign up with" />

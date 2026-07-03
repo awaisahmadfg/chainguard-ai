@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { AuthButton } from "@/components/auth/auth-button";
-import { AuthDivider } from "@/components/auth/auth-divider";
 import { AuthIcon } from "@/components/auth/auth-icons";
-import { PasswordInput } from "@/components/auth/password-input";
+import { LoginForm } from "@/components/auth/login-form";
 
 export default function LoginPage() {
   return (
@@ -26,72 +24,7 @@ export default function LoginPage() {
           </h2>
         </div>
 
-        <form className="flex w-full flex-col">
-          <div className="mb-4 flex flex-col gap-2">
-            <label
-              className="text-[13px] font-medium leading-[18px] tracking-[0.01em] text-[#bbcabf]"
-              htmlFor="email"
-            >
-              Email Address
-            </label>
-            <input
-              className="w-full rounded border border-[#27272a] bg-[#09090b] px-4 py-2 text-sm text-[#e5e1e4] outline-none transition-all placeholder:text-[#bbcabf]/50 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
-              id="email"
-              placeholder="admin@enterprise.com"
-              type="email"
-            />
-          </div>
-
-          <div className="mb-6">
-            <PasswordInput
-              action={
-              <Link
-                className="text-[13px] font-medium leading-[18px] tracking-[0.01em] text-emerald-500 transition-colors hover:text-emerald-300"
-                href="/forgot-password"
-              >
-                Forgot Password?
-              </Link>
-              }
-              label="Password"
-              labelClassName="text-[13px] font-medium leading-[18px] tracking-[0.01em] text-[#bbcabf]"
-              name="password"
-              placeholder="••••••••••••"
-              showLeadingIcon={false}
-            />
-          </div>
-
-          <AuthButton className="mb-6 hover:bg-emerald-600" href="/authenticated">
-            Sign In
-            <AuthIcon className="size-[18px]" name="arrow-right" />
-          </AuthButton>
-
-          <div className="mb-6">
-            <AuthDivider label="Or continue with" />
-          </div>
-
-          <div className="mb-6 flex flex-col gap-3">
-            <AuthButton variant="secondary">
-              <AuthIcon className="size-5" name="google" />
-              Continue with Google
-            </AuthButton>
-            <AuthButton href="/connect-wallet" variant="secondary">
-              <AuthIcon className="size-5 text-[#bbcabf]" name="wallet" />
-              Connect Wallet
-            </AuthButton>
-          </div>
-
-          <div className="mt-2 text-center">
-            <p className="text-sm leading-5 text-[#bbcabf]">
-              Don&apos;t have an account?{" "}
-              <Link
-                className="font-medium text-emerald-500 transition-colors hover:text-emerald-300"
-                href="/signup"
-              >
-                Create Account
-              </Link>
-            </p>
-          </div>
-        </form>
+        <LoginForm />
       </div>
 
       <footer className="flex flex-col items-center justify-center gap-2 text-center">

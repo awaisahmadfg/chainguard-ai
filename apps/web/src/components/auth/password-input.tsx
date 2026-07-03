@@ -6,24 +6,34 @@ import { AuthIcon } from "./auth-icons";
 
 type PasswordInputProps = {
   action?: ReactNode;
+  autoComplete?: string;
+  error?: string;
   icon?: "lock" | "refresh";
   id?: string;
   label: string;
   labelClassName?: string;
   name: string;
+  onChange?: (value: string) => void;
   placeholder: string;
+  required?: boolean;
   showLeadingIcon?: boolean;
+  value?: string;
 };
 
 export function PasswordInput({
   action,
+  autoComplete,
+  error,
   icon = "lock",
   id,
   label,
   labelClassName = "text-[13px] font-medium leading-[18px] tracking-[0.01em] text-[#e5e1e4]",
   name,
+  onChange,
   placeholder,
+  required = false,
   showLeadingIcon = true,
+  value,
 }: PasswordInputProps) {
   const [isVisible, setIsVisible] = useState(false);
   const inputId = id ?? name;
@@ -48,13 +58,22 @@ export function PasswordInput({
         ) : null}
 
         <input
-          className={`h-10 w-full rounded border border-[#27272a] bg-[#09090b] py-2 text-sm leading-5 text-[#e5e1e4] outline-none transition-all placeholder:text-[#bbcabf]/50 focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 ${
+          aria-invalid={Boolean(error)}
+          autoComplete={autoComplete}
+          className={`h-10 w-full rounded border bg-[#09090b] py-2 text-sm leading-5 text-[#e5e1e4] outline-none transition-all placeholder:text-[#bbcabf]/50 focus:ring-1 ${
+            error
+              ? "border-red-400 focus:border-red-400 focus:ring-red-400"
+              : "border-[#27272a] focus:border-emerald-400 focus:ring-emerald-400"
+          } ${
             showLeadingIcon ? "pl-10" : "pl-4"
           } pr-10`}
           id={inputId}
           name={name}
+          onChange={(event) => onChange?.(event.target.value)}
           placeholder={placeholder}
+          required={required}
           type={isVisible ? "text" : "password"}
+          value={value}
         />
 
         <button
@@ -69,6 +88,7 @@ export function PasswordInput({
           />
         </button>
       </div>
+      {error ? <p className="text-xs leading-5 text-red-300">{error}</p> : null}
     </div>
   );
 }
