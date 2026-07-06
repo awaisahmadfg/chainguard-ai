@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { AuthButton } from "./auth-button";
+import { forgotPasswordSchema, getFieldErrors } from "./auth-schemas";
 import { AuthIcon } from "./auth-icons";
 import { AuthInput } from "./auth-input";
-import { validateEmail } from "./validation";
 
 export function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
@@ -15,13 +15,15 @@ export function ForgotPasswordForm() {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const emailError = validateEmail(email);
-    setError(emailError);
+    const result = forgotPasswordSchema.safeParse({ email });
 
-    if (emailError) {
+    if (!result.success) {
+      const fieldErrors = getFieldErrors(result.error.flatten().fieldErrors);
+      setError(fieldErrors.email ?? "");
       return;
     }
 
+    setError("");
     setIsSubmitting(true);
     window.setTimeout(() => {
       setIsSubmitting(false);
@@ -30,7 +32,7 @@ export function ForgotPasswordForm() {
   }
 
   return (
-    <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-6" noValidate onSubmit={handleSubmit}>
       <AuthInput
         autoComplete="email"
         error={error}

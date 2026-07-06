@@ -7,18 +7,10 @@ import { AuthIcon } from "./auth-icons";
 import { AuthInput } from "./auth-input";
 import { PasswordInput } from "./password-input";
 import {
-  validateEmail,
-  validatePassword,
-  validatePasswordMatch,
-  validateRequired,
-} from "./validation";
-
-type SignupValues = {
-  confirmPassword: string;
-  email: string;
-  fullName: string;
-  password: string;
-};
+  getFieldErrors,
+  signupSchema,
+  type SignupValues,
+} from "./auth-schemas";
 
 type SignupErrors = Partial<Record<keyof SignupValues, string>>;
 
@@ -44,18 +36,15 @@ export function SignupForm() {
   }
 
   function validateForm() {
-    const nextErrors: SignupErrors = {
-      confirmPassword: validatePasswordMatch(
-        values.password,
-        values.confirmPassword,
-      ),
-      email: validateEmail(values.email),
-      fullName: validateRequired(values.fullName, "Full name"),
-      password: validatePassword(values.password),
-    };
+    const result = signupSchema.safeParse(values);
 
-    setErrors(nextErrors);
-    return Object.values(nextErrors).every((error) => !error);
+    if (result.success) {
+      setErrors({});
+      return true;
+    }
+
+    setErrors(getFieldErrors(result.error.flatten().fieldErrors));
+    return false;
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -72,7 +61,7 @@ export function SignupForm() {
   }
 
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
+    <form className="space-y-4" noValidate onSubmit={handleSubmit}>
       <AuthInput
         autoComplete="name"
         error={errors.fullName}

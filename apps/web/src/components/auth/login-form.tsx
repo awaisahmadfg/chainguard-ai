@@ -8,12 +8,11 @@ import { AuthDivider } from "./auth-divider";
 import { AuthIcon } from "./auth-icons";
 import { AuthInput } from "./auth-input";
 import { PasswordInput } from "./password-input";
-import { validateEmail, validatePassword } from "./validation";
-
-type LoginValues = {
-  email: string;
-  password: string;
-};
+import {
+  getFieldErrors,
+  loginSchema,
+  type LoginValues,
+} from "./auth-schemas";
 
 type LoginErrors = Partial<Record<keyof LoginValues, string>>;
 
@@ -34,13 +33,15 @@ export function LoginForm() {
   }
 
   function validateForm() {
-    const nextErrors: LoginErrors = {
-      email: validateEmail(values.email),
-      password: validatePassword(values.password),
-    };
+    const result = loginSchema.safeParse(values);
 
-    setErrors(nextErrors);
-    return Object.values(nextErrors).every((error) => !error);
+    if (result.success) {
+      setErrors({});
+      return true;
+    }
+
+    setErrors(getFieldErrors(result.error.flatten().fieldErrors));
+    return false;
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -57,7 +58,7 @@ export function LoginForm() {
   }
 
   return (
-    <form className="flex w-full flex-col" onSubmit={handleSubmit}>
+    <form className="flex w-full flex-col" noValidate onSubmit={handleSubmit}>
       <div className="mb-4">
         <AuthInput
           autoComplete="email"

@@ -4,14 +4,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AuthButton } from "./auth-button";
+import {
+  getFieldErrors,
+  resetPasswordSchema,
+  type ResetPasswordValues,
+} from "./auth-schemas";
 import { AuthIcon } from "./auth-icons";
 import { PasswordInput } from "./password-input";
-import { validatePassword, validatePasswordMatch } from "./validation";
-
-type ResetPasswordValues = {
-  confirmPassword: string;
-  newPassword: string;
-};
 
 type ResetPasswordErrors = Partial<Record<keyof ResetPasswordValues, string>>;
 
@@ -32,16 +31,15 @@ export function ResetPasswordForm() {
   }
 
   function validateForm() {
-    const nextErrors: ResetPasswordErrors = {
-      confirmPassword: validatePasswordMatch(
-        values.newPassword,
-        values.confirmPassword,
-      ),
-      newPassword: validatePassword(values.newPassword),
-    };
+    const result = resetPasswordSchema.safeParse(values);
 
-    setErrors(nextErrors);
-    return Object.values(nextErrors).every((error) => !error);
+    if (result.success) {
+      setErrors({});
+      return true;
+    }
+
+    setErrors(getFieldErrors(result.error.flatten().fieldErrors));
+    return false;
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -58,7 +56,7 @@ export function ResetPasswordForm() {
   }
 
   return (
-    <form className="space-y-6" onSubmit={handleSubmit}>
+    <form className="space-y-6" noValidate onSubmit={handleSubmit}>
       <PasswordInput
         autoComplete="new-password"
         error={errors.newPassword}
@@ -67,7 +65,7 @@ export function ResetPasswordForm() {
         labelClassName="block text-[11px] font-semibold uppercase leading-none tracking-[0.05em] text-[#bbcabf]"
         name="newPassword"
         onChange={(value) => updateValue("newPassword", value)}
-        placeholder="q"
+        placeholder="••••••••••••"
         required
         showLeadingIcon={false}
         value={values.newPassword}
