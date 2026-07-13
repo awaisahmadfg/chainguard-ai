@@ -42,6 +42,10 @@ const nextConfig: NextConfig = {
         source: "/connect-wallet",
         headers: noStoreHeaders,
       },
+      {
+        source: "/dashboard/:path*",
+        headers: noStoreHeaders,
+      },
     ];
   },
 };

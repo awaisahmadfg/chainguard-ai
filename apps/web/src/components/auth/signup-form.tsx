@@ -7,6 +7,7 @@ import { AuthButton } from "./auth-button";
 import { AuthIcon } from "./auth-icons";
 import { AuthInput } from "./auth-input";
 import { PasswordInput } from "./password-input";
+import { establishClientSession } from "@/lib/auth-session";
 import {
   signupSchema,
   type SignupValues,
@@ -31,6 +32,7 @@ export function SignupForm() {
 
   async function onSubmit() {
     await new Promise((resolve) => window.setTimeout(resolve, 600));
+    establishClientSession();
     router.push("/authenticated");
   }
 

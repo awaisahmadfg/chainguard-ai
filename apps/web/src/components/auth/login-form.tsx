@@ -9,6 +9,7 @@ import { AuthDivider } from "./auth-divider";
 import { AuthIcon } from "./auth-icons";
 import { AuthInput } from "./auth-input";
 import { PasswordInput } from "./password-input";
+import { establishClientSession } from "@/lib/auth-session";
 import {
   loginSchema,
   type LoginValues,
@@ -31,6 +32,7 @@ export function LoginForm() {
 
   async function onSubmit() {
     await new Promise((resolve) => window.setTimeout(resolve, 600));
+    establishClientSession();
     router.push("/authenticated");
   }
 

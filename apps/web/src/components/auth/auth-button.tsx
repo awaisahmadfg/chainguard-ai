@@ -9,6 +9,7 @@ type AuthButtonProps = {
   href?: string;
   isLoading?: boolean;
   loadingLabel?: string;
+  onClick?: () => void;
   type?: "button" | "submit";
 };
 
@@ -19,6 +20,7 @@ export function AuthButton({
   href,
   isLoading = false,
   loadingLabel = "Please wait...",
+  onClick,
   type = "button",
   variant = "primary",
 }: AuthButtonProps) {
@@ -45,7 +47,12 @@ export function AuthButton({
   }
 
   return (
-    <button className={sharedClassName} disabled={isDisabled} type={type}>
+    <button
+      className={sharedClassName}
+      disabled={isDisabled}
+      onClick={onClick}
+      type={type}
+    >
       {isLoading ? loadingLabel : children}
     </button>
   );
