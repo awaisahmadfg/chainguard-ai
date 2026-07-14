@@ -15,8 +15,6 @@ export function DashboardShell({ children }: DashboardShellProps) {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#09090b] text-[#e5e1e4]">
-      <GridBackground />
-
       <Sidebar
         mobileOpen={mobileOpen}
         onMobileClose={() => setMobileOpen(false)}
@@ -24,8 +22,11 @@ export function DashboardShell({ children }: DashboardShellProps) {
 
       <div className="relative z-10 flex min-h-screen flex-col lg:pl-[240px]">
         <Topbar onMenuClick={() => setMobileOpen(true)} />
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-          {children}
+        <main className="relative flex min-h-full flex-1 flex-col overflow-y-auto bg-[#09090b]">
+          <GridBackground />
+          <div className="relative z-10 flex min-h-full flex-1 flex-col px-4 py-6 sm:px-6 lg:py-8">
+            {children}
+          </div>
         </main>
       </div>
     </div>

@@ -38,14 +38,13 @@ export const dashboardNavItems: DashboardNavItem[] = [
     label: "Risk Registry",
     match: "prefix",
   },
+  {
+    href: "/dashboard/settings",
+    icon: "settings",
+    label: "Settings",
+    match: "prefix",
+  },
 ];
-
-export const dashboardSettingsNavItem: DashboardNavItem = {
-  href: "/dashboard/settings",
-  icon: "settings",
-  label: "Settings",
-  match: "prefix",
-};
 
 export function isNavItemActive(
   pathname: string,
