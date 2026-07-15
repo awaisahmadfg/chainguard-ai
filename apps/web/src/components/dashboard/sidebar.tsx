@@ -30,14 +30,14 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
         }`}
       >
         <div className="mb-8 flex items-center gap-3 px-6">
-          <div className="flex size-8 items-center justify-center rounded bg-emerald-500 text-[#003824]">
+          <div className="flex size-8 shrink-0 items-center justify-center rounded bg-emerald-500 text-[#003824]">
             <DashboardIcon className="size-5" name="shield" />
           </div>
-          <div>
-            <h1 className="text-2xl font-bold leading-8 tracking-[-0.01em] text-[#e5e1e4]">
+          <div className="min-w-0">
+            <h1 className="whitespace-nowrap text-lg font-bold leading-tight tracking-tight text-emerald-400">
               ChainGuard AI
             </h1>
-            <p className="text-[11px] font-semibold uppercase leading-4 tracking-[0.05em] text-[#bbcabf]">
+            <p className="mt-0.5 text-[11px] font-semibold uppercase leading-4 tracking-[0.05em] text-[#bbcabf]">
               Enterprise Security
             </p>
           </div>

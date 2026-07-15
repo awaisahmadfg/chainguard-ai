@@ -1,11 +1,5 @@
-import { ComingSoon } from "@/components/dashboard/coming-soon";
+import { ChatWorkspace } from "@/components/chat/chat-workspace";
 
 export default function ChatPage() {
-  return (
-    <ComingSoon
-      description="Ask the AI security assistant questions about your contracts, vulnerabilities, and remediation strategies."
-      icon="ai"
-      title="AI Chatbot"
-    />
-  );
+  return <ChatWorkspace />;
 }
