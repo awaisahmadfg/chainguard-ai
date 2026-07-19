@@ -43,6 +43,45 @@ export function RiskRegistry() {
     setOpen(true);
   }
 
+  function handleExportCsv() {
+    const header = [
+      "displayName",
+      "address",
+      "chain",
+      "riskScore",
+      "riskLabel",
+      "status",
+      "lastReviewed",
+      "reportHash",
+    ];
+    const lines = [
+      header.join(","),
+      ...filteredRows.map((row) =>
+        [
+          row.displayName,
+          row.address,
+          row.chain,
+          row.riskScore,
+          row.riskLabel,
+          row.status,
+          row.lastReviewed,
+          row.reportHash,
+        ]
+          .map((value) => `"${String(value).replaceAll('"', '""')}"`)
+          .join(","),
+      ),
+    ];
+    const blob = new Blob([lines.join("\n")], {
+      type: "text/csv;charset=utf-8;",
+    });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "chainguard-risk-registry.csv";
+    anchor.click();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <div className={`flex w-full flex-col gap-6 ${open ? "md:pr-[420px]" : ""}`}>
       <section className="flex w-full flex-col gap-4 border-b border-[#3c4a42] pb-6 lg:flex-row lg:items-end lg:justify-between">
@@ -62,6 +101,7 @@ export function RiskRegistry() {
         <div className="flex flex-wrap gap-3">
           <button
             className="inline-flex items-center justify-center gap-2 rounded-md border border-[#3c4a42] bg-[#18181b] px-4 py-3 text-[13px] font-medium leading-[18px] text-[#e5e1e4] transition-colors hover:border-[#4edea3] hover:text-emerald-400"
+            onClick={handleExportCsv}
             type="button"
           >
             <DashboardIcon className="size-4" name="reports" />
@@ -119,7 +159,8 @@ export function RiskRegistry() {
 
           <div className="flex items-end justify-start lg:justify-end">
             <p className="rounded-md border border-[#27272a] bg-[#131315] px-4 py-3 text-[13px] leading-5 text-[#bbcabf]">
-              Showing 1-10 of 1,248
+              Showing {filteredRows.length} of {registryContracts.length} demo
+              contracts
             </p>
           </div>
         </div>
@@ -140,33 +181,9 @@ export function RiskRegistry() {
       />
 
       <section className="flex w-full items-center justify-between rounded-lg border border-[#27272a] bg-[#0c0c0e] px-4 py-3">
-        <button
-          className="rounded-md border border-[#27272a] px-4 py-2 text-[13px] font-medium leading-[18px] text-[#bbcabf] transition-colors hover:border-[#3c4a42] hover:text-[#e5e1e4] disabled:cursor-not-allowed disabled:opacity-50"
-          type="button"
-        >
-          Previous
-        </button>
-        <div className="flex items-center gap-2">
-          {["1", "2", "3", "4", "5"].map((page, index) => (
-            <button
-              className={`size-9 rounded-md border text-[13px] font-medium leading-5 transition-colors ${
-                index === 0
-                  ? "border-emerald-500 bg-emerald-500/10 text-emerald-400"
-                  : "border-[#27272a] bg-[#131315] text-[#bbcabf] hover:border-[#3c4a42] hover:text-[#e5e1e4]"
-              }`}
-              key={page}
-              type="button"
-            >
-              {page}
-            </button>
-          ))}
-        </div>
-        <button
-          className="rounded-md border border-[#27272a] px-4 py-2 text-[13px] font-medium leading-[18px] text-[#bbcabf] transition-colors hover:border-[#3c4a42] hover:text-[#e5e1e4]"
-          type="button"
-        >
-          Next
-        </button>
+        <p className="text-[13px] leading-5 text-[#bbcabf]">
+          Demo registry shows the filtered mock set only.
+        </p>
       </section>
 
       <footer className="mt-auto w-full border-t border-[#3c4a42] pt-4">
@@ -175,15 +192,18 @@ export function RiskRegistry() {
             © 2024 ChainGuard AI. Secure Audit Protocol.
           </p>
           <div className="flex flex-wrap gap-4">
-            <span className="cursor-pointer text-[11px] font-semibold leading-4 tracking-[0.05em] text-[#bbcabf] transition-colors hover:text-[#e5e1e4]">
+            <Link
+              className="text-[11px] font-semibold leading-4 tracking-[0.05em] text-[#bbcabf] transition-colors hover:text-[#e5e1e4]"
+              href="/privacy"
+            >
               Privacy Policy
-            </span>
-            <span className="cursor-pointer text-[11px] font-semibold leading-4 tracking-[0.05em] text-[#bbcabf] transition-colors hover:text-[#e5e1e4]">
+            </Link>
+            <Link
+              className="text-[11px] font-semibold leading-4 tracking-[0.05em] text-[#bbcabf] transition-colors hover:text-[#e5e1e4]"
+              href="/terms"
+            >
               Terms of Service
-            </span>
-            <span className="cursor-pointer text-[11px] font-semibold leading-4 tracking-[0.05em] text-[#bbcabf] transition-colors hover:text-[#e5e1e4]">
-              Security Whitepaper
-            </span>
+            </Link>
           </div>
         </div>
       </footer>

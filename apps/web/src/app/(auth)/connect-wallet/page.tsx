@@ -6,6 +6,7 @@ import {
 } from "@web3icons/react";
 import type { ReactNode } from "react";
 import { AuthIcon } from "@/components/auth/auth-icons";
+import { DemoGoogleButton } from "@/components/auth/demo-google-button";
 
 type WalletOptionProps = {
   icon: ReactNode;
@@ -89,13 +90,7 @@ export default function ConnectWalletPage() {
             <AuthIcon className="size-[18px]" name="mail" />
             Use Email Instead
           </Link>
-          <button
-            className="flex w-full items-center justify-center gap-2 rounded border border-[#27272a] bg-transparent px-4 py-2.5 text-[13px] font-medium leading-[18px] tracking-[0.01em] text-[#e5e1e4] transition-colors hover:border-[#3f3f46] hover:bg-[#131315]"
-            type="button"
-          >
-            <AuthIcon className="size-[18px]" name="login" />
-            Continue with Google
-          </button>
+          <DemoGoogleButton />
         </div>
       </div>
     </main>

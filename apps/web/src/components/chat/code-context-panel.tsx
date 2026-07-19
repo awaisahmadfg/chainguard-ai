@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { DashboardIcon } from "@/components/dashboard/dashboard-icons";
 
 type CodeLine = {
@@ -49,6 +50,43 @@ const vaultSolLines: CodeLine[] = [
 ];
 
 export function CodeContextPanel() {
+  const [copied, setCopied] = useState(false);
+  const [downloadLabel, setDownloadLabel] = useState(
+    "Download Annotated Report",
+  );
+
+  async function handleCopy() {
+    const source = vaultSolLines.map((line) => line.text).join("\n");
+    await navigator.clipboard.writeText(source);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1500);
+  }
+
+  function handleDownload() {
+    const content = [
+      "ChainGuard AI — Annotated Report (demo)",
+      "File: contracts/Vault.sol",
+      "Finding: Reentrancy in withdrawFunds",
+      "",
+      ...vaultSolLines.map(
+        (line) =>
+          `${String(line.number).padStart(2, " ")}${line.highlight ? " !" : "  "} ${line.text}`,
+      ),
+    ].join("\n");
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "vault-annotated-report.txt";
+    anchor.click();
+    URL.revokeObjectURL(url);
+    setDownloadLabel("Downloaded");
+    window.setTimeout(
+      () => setDownloadLabel("Download Annotated Report"),
+      1500,
+    );
+  }
+
   return (
     <aside className="flex h-full min-h-0 w-full flex-col overflow-hidden border-[#3c4a42]/30 bg-[#0c0c0e] md:w-[400px] md:shrink-0 md:border-l">
       <header className="flex items-center justify-between border-b border-[#3c4a42]/30 bg-[#09090b] px-6 py-4">
@@ -69,12 +107,18 @@ export function CodeContextPanel() {
             <button
               aria-label="Copy"
               className="transition-colors hover:text-[#e5e1e4]"
+              onClick={handleCopy}
               type="button"
             >
               <DashboardIcon className="size-4" name="link" />
             </button>
           </div>
         </div>
+        {copied ? (
+          <p className="border-b border-[#27272a] px-4 py-1 text-[11px] text-emerald-400">
+            Copied to clipboard
+          </p>
+        ) : null}
 
         <pre className="min-h-0 flex-1 overflow-auto px-4 py-4 font-mono text-xs leading-relaxed text-[#c8c6c9]">
           {vaultSolLines.map((line) =>
@@ -104,10 +148,11 @@ export function CodeContextPanel() {
       <div className="border-t border-[#27272a] bg-[#18181b] p-4">
         <button
           className="flex w-full items-center justify-center gap-2 rounded border border-[#27272a] px-4 py-2 text-[13px] font-medium leading-[18px] text-[#e5e1e4] transition-colors hover:border-[#3f3f46]"
+          onClick={handleDownload}
           type="button"
         >
           <DashboardIcon className="size-4" name="download" />
-          Download Annotated Report
+          {downloadLabel}
         </button>
       </div>
     </aside>

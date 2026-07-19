@@ -45,7 +45,6 @@ export function NewReviewForm() {
     await new Promise((resolve) => window.setTimeout(resolve, 600));
 
     const reviewId = crypto.randomUUID().slice(0, 8);
-    console.log("Review submitted:", { ...values, files: files.map((f) => f.name) });
     router.push(`/dashboard/reviews/${reviewId}/progress`);
   }
 

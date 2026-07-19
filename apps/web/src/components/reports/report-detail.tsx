@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { DashboardIcon } from "@/components/dashboard/dashboard-icons";
 import { AnalysisSidebar } from "./analysis-sidebar";
 import { FindingsTable } from "./findings-table";
@@ -5,6 +9,24 @@ import { RecommendedFix } from "./recommended-fix";
 import { SeverityCards } from "./severity-cards";
 
 export function ReportDetail() {
+  const searchParams = useSearchParams();
+  const reviewId = searchParams.get("review") ?? "demo-7a9f";
+  const [exportLabel, setExportLabel] = useState("Export PDF");
+  const [isExporting, setIsExporting] = useState(false);
+
+  async function handleExportPdf() {
+    if (isExporting) {
+      return;
+    }
+
+    setIsExporting(true);
+    setExportLabel("Generating PDF…");
+    await new Promise((resolve) => window.setTimeout(resolve, 900));
+    window.print();
+    setExportLabel("Export PDF");
+    setIsExporting(false);
+  }
+
   return (
     <div className="w-full space-y-8">
       <section className="flex w-full flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
@@ -15,6 +37,9 @@ export function ReportDetail() {
             </span>
             <span className="rounded bg-[#353437] px-2 py-0.5 font-mono text-[13px] leading-5 text-[#bbcabf]">
               0x7a...9F2
+            </span>
+            <span className="rounded border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 font-mono text-[12px] leading-5 text-emerald-400">
+              ID {reviewId}
             </span>
           </div>
           <h1 className="text-4xl font-semibold leading-[44px] tracking-[-0.02em] text-[#e5e1e4]">
@@ -35,11 +60,13 @@ export function ReportDetail() {
             </div>
           </div>
           <button
-            className="inline-flex items-center gap-2 rounded bg-emerald-500 px-4 py-2 text-[13px] font-medium leading-[18px] tracking-[0.01em] text-black transition-colors hover:bg-emerald-300"
+            className="inline-flex items-center gap-2 rounded bg-emerald-500 px-4 py-2 text-[13px] font-medium leading-[18px] tracking-[0.01em] text-black transition-colors hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-70"
+            disabled={isExporting}
+            onClick={handleExportPdf}
             type="button"
           >
             <DashboardIcon className="size-[18px]" name="download" />
-            Export PDF
+            {exportLabel}
           </button>
         </div>
       </section>

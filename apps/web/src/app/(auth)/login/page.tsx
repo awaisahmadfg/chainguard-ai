@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { AuthIcon } from "@/components/auth/auth-icons";
 import { LoginForm } from "@/components/auth/login-form";
@@ -22,9 +23,18 @@ export default function LoginPage() {
           <h2 className="text-xl font-semibold leading-7 text-[#e5e1e4]">
             Sign in to your account
           </h2>
+          <p className="mt-2 text-sm text-[#bbcabf]">
+            Judges: skip forms via{" "}
+            <Link className="text-emerald-400 hover:text-emerald-300" href="/">
+              Enter live demo
+            </Link>{" "}
+            on the home page.
+          </p>
         </div>
 
-        <LoginForm />
+        <Suspense fallback={<div className="h-64 w-full animate-pulse rounded bg-[#18181b]" />}>
+          <LoginForm />
+        </Suspense>
       </div>
 
       <footer className="flex flex-col items-center justify-center gap-2 text-center">

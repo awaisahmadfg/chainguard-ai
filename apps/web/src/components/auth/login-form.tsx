@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthButton } from "./auth-button";
 import { AuthDivider } from "./auth-divider";
 import { AuthIcon } from "./auth-icons";
 import { AuthInput } from "./auth-input";
+import { DemoGoogleButton } from "./demo-google-button";
 import { PasswordInput } from "./password-input";
 import { establishClientSession } from "@/lib/auth-session";
 import {
@@ -17,6 +18,7 @@ import {
 
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const {
     control,
     formState: { errors, isSubmitting, isValid },
@@ -33,7 +35,10 @@ export function LoginForm() {
   async function onSubmit() {
     await new Promise((resolve) => window.setTimeout(resolve, 600));
     establishClientSession();
-    router.push("/authenticated");
+    const from = searchParams.get("from");
+    const nextPath =
+      from && from.startsWith("/dashboard") ? from : "/authenticated";
+    router.push(nextPath);
   }
 
   return (
@@ -105,10 +110,7 @@ export function LoginForm() {
       </div>
 
       <div className="mb-6 flex flex-col gap-3">
-        <AuthButton variant="secondary">
-          <AuthIcon className="size-5" name="google" />
-          Continue with Google
-        </AuthButton>
+        <DemoGoogleButton />
         <AuthButton href="/connect-wallet" variant="secondary">
           <AuthIcon className="size-5 text-[#bbcabf]" name="wallet" />
           Connect Wallet

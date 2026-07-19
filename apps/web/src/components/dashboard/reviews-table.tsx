@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Review } from "@/lib/mock-reviews";
 import { Badge } from "./badge";
 
@@ -21,12 +22,12 @@ export function ReviewsTable({ reviews }: ReviewsTableProps) {
         <h3 className="text-2xl font-semibold leading-8 tracking-[-0.01em] text-[#e5e1e4]">
           Recent Reviews
         </h3>
-        <button
+        <Link
           className="text-[13px] font-medium leading-[18px] tracking-[0.01em] text-emerald-400 transition-colors hover:text-emerald-300"
-          type="button"
+          href="/dashboard/reports"
         >
           View All
-        </button>
+        </Link>
       </div>
 
       <div className="w-full overflow-x-auto">
@@ -68,12 +69,12 @@ export function ReviewsTable({ reviews }: ReviewsTableProps) {
                   {review.reviewedAt}
                 </td>
                 <td className="px-6 py-3 text-right">
-                  <button
-                    className="rounded border border-[#3f3f46] px-3 py-1 text-[13px] font-medium leading-[18px] text-[#bbcabf] transition-colors hover:text-[#e5e1e4]"
-                    type="button"
+                  <Link
+                    className="inline-flex rounded border border-[#3f3f46] px-3 py-1 text-[13px] font-medium leading-[18px] text-[#bbcabf] transition-colors hover:text-[#e5e1e4]"
+                    href="/dashboard/reports"
                   >
                     View
-                  </button>
+                  </Link>
                 </td>
               </tr>
             ))}

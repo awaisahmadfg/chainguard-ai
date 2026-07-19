@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { AuthButton } from "@/components/auth/auth-button";
 import { AuthCard } from "@/components/auth/auth-card";
 import { AuthDivider } from "@/components/auth/auth-divider";
+import { AuthButton } from "@/components/auth/auth-button";
 import { AuthIcon } from "@/components/auth/auth-icons";
 import { AuthLogo } from "@/components/auth/auth-logo";
+import { DemoGoogleButton } from "@/components/auth/demo-google-button";
 import { SignupForm } from "@/components/auth/signup-form";
 
 export default function SignUpPage() {
@@ -26,10 +27,7 @@ export default function SignUpPage() {
       </div>
 
       <div className="space-y-3">
-        <AuthButton variant="secondary">
-          <AuthIcon className="size-4 opacity-70" name="google" />
-          Continue with Google
-        </AuthButton>
+        <DemoGoogleButton />
         <AuthButton href="/connect-wallet" variant="secondary">
           <AuthIcon className="size-[18px] text-[#bbcabf]" name="wallet" />
           Connect Wallet

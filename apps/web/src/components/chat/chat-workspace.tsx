@@ -14,18 +14,19 @@ import { CodeContextPanel } from "./code-context-panel";
 
 export function ChatWorkspace() {
   const [draft, setDraft] = useState("");
+  const [isThinking, setIsThinking] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [messages]);
+  }, [messages, isThinking]);
 
-  function sendMessage(messageText: string) {
+  async function sendMessage(messageText: string) {
     const trimmed = messageText.trim();
 
-    if (!trimmed) {
+    if (!trimmed || isThinking) {
       return;
     }
 
@@ -36,9 +37,12 @@ export function ChatWorkspace() {
         id: `user-${Date.now()}`,
         role: "user",
       },
-      buildMockReply(trimmed),
     ]);
     setDraft("");
+    setIsThinking(true);
+    await new Promise((resolve) => window.setTimeout(resolve, 700));
+    setMessages((current) => [...current, buildMockReply(trimmed)]);
+    setIsThinking(false);
     inputRef.current?.focus();
   }
 
@@ -49,7 +53,7 @@ export function ChatWorkspace() {
       return;
     }
 
-    sendMessage(prompt.prompt);
+    void sendMessage(prompt.prompt);
   }
 
   return (
@@ -57,24 +61,34 @@ export function ChatWorkspace() {
       <div className="flex min-h-0 w-full flex-1 flex-col md:flex-row">
         <section className="flex min-h-0 min-w-0 flex-1 flex-col border-[#3c4a42]/30 bg-[#09090b]/80 backdrop-blur-sm md:border-r">
           <header className="flex items-center justify-between gap-4 border-b border-[#3c4a42]/30 bg-[#09090b] px-6 py-4">
-            <h1 className="text-2xl font-bold leading-8 tracking-[-0.01em] text-[#e5e1e4]">
-              Ask About This Contract
-            </h1>
+            <div>
+              <h1 className="text-2xl font-bold leading-8 tracking-[-0.01em] text-[#e5e1e4]">
+                Ask About This Contract
+              </h1>
+              <p className="mt-1 text-sm text-[#bbcabf]">
+                AI security agent with code context and SWC-style citations.
+              </p>
+            </div>
             <div className="flex items-center gap-2">
               <span className="size-2 animate-pulse rounded-full bg-emerald-500" />
               <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-emerald-400">
-                System Active
+                {isThinking ? "Thinking" : "System Active"}
               </span>
             </div>
           </header>
 
           <ChatMessages messages={messages} messagesEndRef={messagesEndRef} />
+          {isThinking ? (
+            <p className="border-t border-[#27272a] px-6 py-2 text-[12px] text-emerald-400">
+              Retrieving security context and drafting a response…
+            </p>
+          ) : null}
 
           <ChatInput
             inputRef={inputRef}
             onChange={setDraft}
             onChipSelect={handleChipSelect}
-            onSend={() => sendMessage(draft)}
+            onSend={() => void sendMessage(draft)}
             suggestions={suggestedPrompts}
             value={draft}
           />

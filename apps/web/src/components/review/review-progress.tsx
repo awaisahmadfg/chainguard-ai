@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type PipelineStep = {
   id: string;
@@ -22,8 +23,10 @@ type ReviewProgressProps = {
 };
 
 export function ReviewProgress({ reviewId }: ReviewProgressProps) {
+  const router = useRouter();
   const [steps, setSteps] = useState(initialSteps);
   const [isComplete, setIsComplete] = useState(false);
+  const reportHref = `/dashboard/reports?review=${reviewId}`;
 
   useEffect(() => {
     let stepIndex = 0;
@@ -58,6 +61,18 @@ export function ReviewProgress({ reviewId }: ReviewProgressProps) {
     return () => window.clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (!isComplete) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      router.push(reportHref);
+    }, 1800);
+
+    return () => window.clearTimeout(timeout);
+  }, [isComplete, reportHref, router]);
+
   return (
     <div className="mx-auto w-full max-w-3xl">
       <header className="mb-8">
@@ -65,11 +80,12 @@ export function ReviewProgress({ reviewId }: ReviewProgressProps) {
           Review ID: {reviewId}
         </p>
         <h1 className="mt-2 text-4xl font-semibold leading-[44px] tracking-[-0.02em] text-[#e5e1e4]">
-          Analysis in Progress
+          {isComplete ? "Analysis Complete" : "Analysis in Progress"}
         </h1>
         <p className="mt-2 text-base leading-6 text-[#bbcabf]">
-          Running security tools and AI review pipeline. This may take a few
-          minutes.
+          {isComplete
+            ? "Pipeline finished. Opening your risk report…"
+            : "Running security tools and AI review pipeline. This may take a few minutes."}
         </p>
       </header>
 
@@ -98,9 +114,9 @@ export function ReviewProgress({ reviewId }: ReviewProgressProps) {
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
             className="inline-flex items-center justify-center rounded bg-emerald-500 px-6 py-3 text-[13px] font-medium leading-[18px] text-black transition-colors hover:bg-emerald-300"
-            href="/dashboard/reports"
+            href={reportHref}
           >
-            View Report
+            View Report Now
           </Link>
           <Link
             className="inline-flex items-center justify-center rounded border border-[#3f3f46] px-6 py-3 text-[13px] font-medium leading-[18px] text-[#e5e1e4] transition-colors hover:border-[#bbcabf]"

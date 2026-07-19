@@ -47,10 +47,9 @@ export function getFieldErrors<TFieldName extends string>(
   fieldErrors: Partial<Record<TFieldName, string[] | undefined>>,
 ) {
   return Object.fromEntries(
-    Object.entries(fieldErrors).map(([fieldName, messages]) => [
-      fieldName,
-      messages?.[0] ?? "",
-    ]),
+    (Object.entries(fieldErrors) as [TFieldName, string[] | undefined][]).map(
+      ([fieldName, messages]) => [fieldName, messages?.[0] ?? ""],
+    ),
   ) as Partial<Record<TFieldName, string>>;
 }
 

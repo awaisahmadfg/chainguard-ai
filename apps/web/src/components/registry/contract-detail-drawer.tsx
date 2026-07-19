@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import { DashboardIcon } from "@/components/dashboard/dashboard-icons";
 import type { RegistryContractDetail } from "@/lib/mock-registry";
 
@@ -14,6 +16,12 @@ export function ContractDetailDrawer({
   open,
   row,
 }: ContractDetailDrawerProps) {
+  const [approved, setApproved] = useState(false);
+
+  useEffect(() => {
+    setApproved(false);
+  }, [row?.address]);
+
   if (!open || !row) {
     return null;
   }
@@ -35,7 +43,7 @@ export function ContractDetailDrawer({
         <div className="flex items-start justify-between border-b border-[#27272a] px-5 py-4">
           <div>
             <span className="inline-flex rounded-full border border-[#3c4a42] bg-[#18181b] px-3 py-1 text-[11px] font-semibold uppercase leading-4 tracking-[0.12em] text-[#bbcabf]">
-              {row.status}
+              {approved ? "Verified" : row.status}
             </span>
             <h2
               className="mt-3 text-2xl font-semibold leading-8 tracking-[-0.02em] text-[#e5e1e4]"
@@ -164,20 +172,27 @@ export function ContractDetailDrawer({
         </div>
 
         <div className="border-t border-[#27272a] px-5 py-4">
+          {approved ? (
+            <p className="mb-3 text-center text-[12px] leading-5 text-emerald-400">
+              Verification approved for this demo entry.
+            </p>
+          ) : null}
           <div className="flex gap-3">
-            <button
+            <Link
               className="inline-flex flex-1 items-center justify-center gap-2 rounded-md border border-[#3c4a42] bg-[#18181b] px-4 py-3 text-[13px] font-medium leading-[18px] text-[#e5e1e4] transition-colors hover:border-[#4edea3] hover:text-emerald-400"
-              type="button"
+              href="/dashboard/reports"
             >
               <DashboardIcon className="size-4" name="reports" />
               View Raw Report
-            </button>
+            </Link>
             <button
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-md bg-emerald-500 px-4 py-3 text-[13px] font-bold leading-[18px] text-black shadow-[0_0_15px_rgba(16,185,129,0.15)] transition-colors hover:bg-emerald-300"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-md bg-emerald-500 px-4 py-3 text-[13px] font-bold leading-[18px] text-black shadow-[0_0_15px_rgba(16,185,129,0.15)] transition-colors hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-70"
+              disabled={approved}
+              onClick={() => setApproved(true)}
               type="button"
             >
               <DashboardIcon className="size-4" name="shield" />
-              Approve Verification
+              {approved ? "Approved" : "Approve Verification"}
             </button>
           </div>
         </div>

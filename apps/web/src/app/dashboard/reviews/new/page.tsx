@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { NewReviewForm } from "@/components/review/new-review-form";
 
 export default function NewReviewPage() {
@@ -21,15 +22,18 @@ export default function NewReviewPage() {
             © 2024 ChainGuard AI. Secure Audit Protocol.
           </p>
           <div className="flex flex-wrap gap-4">
-            <span className="cursor-pointer text-[11px] font-semibold leading-4 tracking-[0.05em] text-[#bbcabf] transition-colors hover:text-[#e5e1e4]">
+            <Link
+              className="text-[11px] font-semibold leading-4 tracking-[0.05em] text-[#bbcabf] transition-colors hover:text-[#e5e1e4]"
+              href="/privacy"
+            >
               Privacy Policy
-            </span>
-            <span className="cursor-pointer text-[11px] font-semibold leading-4 tracking-[0.05em] text-[#bbcabf] transition-colors hover:text-[#e5e1e4]">
+            </Link>
+            <Link
+              className="text-[11px] font-semibold leading-4 tracking-[0.05em] text-[#bbcabf] transition-colors hover:text-[#e5e1e4]"
+              href="/terms"
+            >
               Terms of Service
-            </span>
-            <span className="cursor-pointer text-[11px] font-semibold leading-4 tracking-[0.05em] text-[#bbcabf] transition-colors hover:text-[#e5e1e4]">
-              Security Whitepaper
-            </span>
+            </Link>
           </div>
         </div>
       </footer>
