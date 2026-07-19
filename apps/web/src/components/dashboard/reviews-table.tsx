@@ -55,7 +55,7 @@ export function ReviewsTable({ reviews }: ReviewsTableProps) {
                     ? ""
                     : "border-b border-[#27272a]"
                 }`}
-                key={review.project}
+                key={review.reportId}
               >
                 <td className="px-6 py-3 font-medium">{review.project}</td>
                 <td className="px-6 py-3 text-[#bbcabf]">{review.chain}</td>
@@ -70,8 +70,8 @@ export function ReviewsTable({ reviews }: ReviewsTableProps) {
                 </td>
                 <td className="px-6 py-3 text-right">
                   <Link
-                    className="inline-flex rounded border border-[#3f3f46] px-3 py-1 text-[13px] font-medium leading-[18px] text-[#bbcabf] transition-colors hover:text-[#e5e1e4]"
-                    href="/dashboard/reports"
+                    className="inline-flex rounded border border-[#3f3f46] px-3 py-1 text-[13px] font-medium leading-[18px] text-[#bbcabf] transition-colors hover:border-emerald-500/40 hover:text-emerald-300"
+                    href={`/dashboard/reports?review=${review.reportId}`}
                   >
                     View
                   </Link>

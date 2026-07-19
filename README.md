@@ -1,91 +1,120 @@
 # ChainGuard AI
 
-AI smart-contract review agent prototype — judges can click through auth, analysis pipeline, risk reports, AI chat, and an on-chain-style risk registry.
+**Hackathon prototype** — a clickable frontend for an AI smart-contract review agent.
 
-> **Hackathon submission:** frontend-only interactive prototype. Auth, findings, and chat replies are mocked so the full product story works without a backend.
+Reviewers can walk the full product loop without a backend: auth → new review → analysis progress → risk report → AI chat → on-chain risk registry. Analysis, chat, and registry data are **demo-mocked** so the UI is fully explorable in minutes.
 
-## Live demo (judges)
+> Backend (Foundry / Slither / RAG / real wallets) is intentionally out of scope for this prototype. That is expected for a short hackathon build.
 
-1. Open the hosted URL (see submission form / repo About).
-2. Click **Enter live demo** on the landing page (skips signup).
-3. Follow the in-app tour:
-   - New Review → watch Foundry / Slither / RAG / AI progress
-   - Open the risk report (Export PDF works via print)
-   - Ask the AI chat (type or use suggestion chips)
-   - Browse / filter Risk Registry (Export CSV downloads)
-
-Optional: use Signup / Login / Connect Wallet to try the auth UX.
-
-## Why this exists
-
-Web3 teams wait days for security feedback. ChainGuard AI shows an agent-shaped product that:
-
-- Runs a security tool pipeline (Foundry, Slither)
-- Retrieves security knowledge (RAG)
-- Generates a structured risk report
-- Lets users chat about findings with citations
-- Publishes review outcomes to a risk registry UX
-
-## Quick start (local)
+## Quick start (judges)
 
 ```bash
 pnpm install
 pnpm dev:web
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000)
 
-| Command | Purpose |
-|---------|---------|
-| `pnpm dev:web` | Dev server |
-| `pnpm lint:web` | Lint |
-| `pnpm build:web` | Production build |
+1. Click **Enter live demo** on the landing page (skips login).
+2. Follow the green **Judge / first-run tour** on the dashboard.
+3. Or record the flow in [`DEMO.md`](./DEMO.md) (≤ 3 minute script).
 
-## What is real vs mocked
+Any email/password on login/signup also creates a local demo session cookie and continues.
 
-| Area | Status |
-|------|--------|
-| Full clickable UI + navigation | Real |
-| Form validation (Zod) | Real |
-| Demo session cookie for `/dashboard` | Real (client cookie) |
-| Review / report / chat / registry content | Mock data |
-| Google OAuth, live wallets, Foundry/Slither/RAG APIs | UI / simulated only |
+## What this prototype demonstrates
 
-## Screens
+| Area | What you can click |
+|------|--------------------|
+| Landing | Problem framing + one-click demo entry |
+| Auth | Signup, login, forgot/reset password, connect wallet, signature request |
+| Dashboard | Stats, recent reviews, tour banner |
+| New Review | GitHub / upload / address, chain select, Foundry·Slither·RAG pipeline toggles |
+| Progress | Simulated multi-step analysis pipeline |
+| Reports | Risk score, severity, findings, recommended fix, PDF export UI |
+| AI Chat | Mock security agent with suggested prompts + code context |
+| Risk Registry | Filters, contract drawer, CSV export, verification actions |
+| Settings | Profile, auth methods, API credentials, org structure (UI) |
 
-**Auth:** Signup, Login, Forgot/Reset, Connect wallet, Signature, Terms, Privacy  
+## Honest scope
 
-**Product:** Dashboard, New review, Analysis progress, Report, AI chatbot, Risk registry, Settings
+**Included**
 
-## Tech
+- Complete Next.js App Router UI
+- Demo session cookie + middleware-protected `/dashboard/*`
+- Mock review / report / chat / registry data
+- Judge tour + demo video beat sheet
 
-Next.js App Router · React · TypeScript · Tailwind CSS · React Hook Form + Zod · pnpm workspaces (`apps/web`)
+**Not included (planned)**
 
-## Deploy (Vercel)
+- Real OAuth / wallet cryptography
+- FastAPI (or other) backend
+- Live Foundry / Slither execution
+- Real RAG + LLM tool calling
+- On-chain registry transactions
 
-Root directory for the project: `apps/web`.  
-Install/build use the monorepo `pnpm` scripts via `apps/web/vercel.json`.
+Findings in this build are **illustrative**, not audit advice.
 
-## Demo video script (~3 min)
+## Product vision
 
-1. **Problem (30s):** Audits are slow; teams need earlier AI + tooling feedback.  
-2. **Product (90s):** Live demo → New Review → progress → report → chat a fix question → registry export.  
-3. **Payoff (30s):** Faster pre-deploy risk signal + agent UX; next step is real tool APIs + RAG.  
-4. **Honesty (20s):** Prototype UI with mocked analysis — architecture is ready for backend agents.
+ChainGuard AI targets Web3 teams who need faster security feedback before a full audit: upload or connect a repo, run tool-assisted analysis, ask an AI agent about findings, and optionally publish verifiable risk metadata on-chain.
 
-## Pitch deck (optional)
+```mermaid
+flowchart TD
+  A[Landing / Auth] --> B[Dashboard]
+  B --> C[New Review]
+  C --> D[Analysis Progress]
+  D --> E[Risk Report]
+  E --> F[AI Chat]
+  E --> G[Risk Registry]
+```
 
-Good to have: 5–7 slides — problem, who feels it, product flow, AI role, what’s mock vs next, ask.
+## Tech stack
 
-## Repo layout
+- Next.js (App Router) · React · TypeScript · Tailwind CSS
+- pnpm workspaces (`apps/web`)
+- react-hook-form + zod (forms)
+- `@web3icons/react` (wallet icons)
+
+## Repository layout
 
 ```txt
 chainguard-ai/
-  apps/web/          # Next.js app
-  package.json
-  pnpm-workspace.yaml
+  DEMO.md                 # ≤3 min demo video script
+  README.md
+  apps/web/
+    src/app/
+      page.tsx            # Landing + Enter live demo
+      (auth)/             # Login, signup, wallet, privacy, terms…
+      dashboard/          # Overview, review, reports, chat, registry, settings
+    src/components/       # Auth, dashboard, review, chat, registry, demo
+    src/lib/              # Mock data + session helpers
 ```
 
-## Built with AI tooling
+## Scripts
 
-This prototype was built with AI coding assistance (OpenAI Codex / Cursor) on a Next.js stack, matching the hackathon toolkit constraint.
+```bash
+pnpm install          # install deps
+pnpm dev:web          # http://localhost:3000
+pnpm lint:web         # eslint
+pnpm build:web        # production build
+```
+
+## Suggested review path (3 minutes)
+
+1. Landing → **Enter live demo**
+2. Dashboard tour → **Start a review** → submit
+3. Watch progress → open report → export PDF (UI)
+4. **AI Chatbot** → use a suggested prompt
+5. **Risk Registry** → open a contract → export CSV
+
+## Roadmap (post-hackathon)
+
+- Wire email / Google / wallet auth for real
+- Backend API + Foundry / Slither runners
+- RAG retrieval + LLM tool-calling agent
+- Publish report hash / risk badge on-chain
+- Monitoring (latency, tool failures, token cost)
+
+## License / notice
+
+Prototype for hackathon evaluation. Not a production security product.

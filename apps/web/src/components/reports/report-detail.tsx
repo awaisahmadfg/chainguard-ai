@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { DashboardIcon } from "@/components/dashboard/dashboard-icons";
@@ -47,8 +48,8 @@ export function ReportDetail() {
           </h1>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="flex flex-col items-end border-r border-[#3c4a42] pr-4">
+        <div className="flex flex-wrap items-center gap-3 sm:justify-end">
+          <div className="flex flex-col items-start border-r border-[#3c4a42] pr-4 sm:items-end">
             <span className="mb-1 text-[11px] font-semibold uppercase leading-4 tracking-[0.05em] text-[#bbcabf]">
               Risk Score
             </span>
@@ -59,6 +60,13 @@ export function ReportDetail() {
               <span className="text-sm leading-5 text-[#bbcabf]">/ 100</span>
             </div>
           </div>
+          <Link
+            className="inline-flex items-center gap-2 rounded border border-[#3f3f46] px-4 py-2 text-[13px] font-medium leading-[18px] text-[#e5e1e4] transition-colors hover:border-emerald-500/50 hover:text-emerald-300"
+            href="/dashboard/chat"
+          >
+            <DashboardIcon className="size-[18px]" name="ai" />
+            Ask AI about this
+          </Link>
           <button
             className="inline-flex items-center gap-2 rounded bg-emerald-500 px-4 py-2 text-[13px] font-medium leading-[18px] tracking-[0.01em] text-black transition-colors hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-70"
             disabled={isExporting}

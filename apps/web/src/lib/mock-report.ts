@@ -6,6 +6,7 @@ export type ReportFinding = {
   issue: string;
   line: string;
   severity: SeverityLevel;
+  source: "ai" | "slither" | "foundry";
 };
 
 export type AnalysisMetadata = {
@@ -55,6 +56,7 @@ export const reportFindings: ReportFinding[] = [
     issue: "Reentrancy vulnerability in token transfer",
     line: "L142",
     severity: "critical",
+    source: "ai",
   },
   {
     confidence: 88,
@@ -62,6 +64,39 @@ export const reportFindings: ReportFinding[] = [
     issue: "Missing access control on initialization",
     line: "L45",
     severity: "high",
+    source: "ai",
+  },
+  {
+    confidence: 91,
+    functionName: "withdraw()",
+    issue: "reentrancy-eth: external call before state update",
+    line: "L142",
+    severity: "critical",
+    source: "slither",
+  },
+  {
+    confidence: 76,
+    functionName: "setFee()",
+    issue: "arbitrary-send: unchecked transfer destination",
+    line: "L88",
+    severity: "medium",
+    source: "slither",
+  },
+  {
+    confidence: 84,
+    functionName: "shouldPreventReentrantWithdraw",
+    issue: "Test failed: vault balance drained on second call",
+    line: "T12",
+    severity: "high",
+    source: "foundry",
+  },
+  {
+    confidence: 70,
+    functionName: "testOnlyOwnerCanInitialize",
+    issue: "Invariant passed after access-control patch suggestion",
+    line: "T4",
+    severity: "low",
+    source: "foundry",
   },
 ];
 

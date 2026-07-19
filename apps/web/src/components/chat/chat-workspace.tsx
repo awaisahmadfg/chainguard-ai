@@ -16,6 +16,7 @@ export function ChatWorkspace() {
   const [draft, setDraft] = useState("");
   const [isThinking, setIsThinking] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
+  const [mobilePanel, setMobilePanel] = useState<"chat" | "code">("chat");
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -47,19 +48,42 @@ export function ChatWorkspace() {
   }
 
   function handleChipSelect(prompt: SuggestedPrompt) {
-    if (!draft.trim()) {
-      setDraft(prompt.prompt);
-      inputRef.current?.focus();
-      return;
-    }
-
     void sendMessage(prompt.prompt);
   }
 
   return (
     <div className="-mx-4 -my-6 flex h-[calc(100vh-4rem)] min-h-0 overflow-hidden sm:-mx-6 lg:-my-8">
       <div className="flex min-h-0 w-full flex-1 flex-col md:flex-row">
-        <section className="flex min-h-0 min-w-0 flex-1 flex-col border-[#3c4a42]/30 bg-[#09090b]/80 backdrop-blur-sm md:border-r">
+        <div className="flex gap-2 border-b border-[#3c4a42]/30 px-4 py-2 md:hidden">
+          <button
+            className={`rounded px-3 py-1.5 text-[12px] font-medium ${
+              mobilePanel === "chat"
+                ? "bg-emerald-500/15 text-emerald-300"
+                : "text-[#bbcabf]"
+            }`}
+            onClick={() => setMobilePanel("chat")}
+            type="button"
+          >
+            Chat
+          </button>
+          <button
+            className={`rounded px-3 py-1.5 text-[12px] font-medium ${
+              mobilePanel === "code"
+                ? "bg-emerald-500/15 text-emerald-300"
+                : "text-[#bbcabf]"
+            }`}
+            onClick={() => setMobilePanel("code")}
+            type="button"
+          >
+            Code context
+          </button>
+        </div>
+
+        <section
+          className={`min-h-0 min-w-0 flex-1 flex-col border-[#3c4a42]/30 bg-[#09090b]/80 backdrop-blur-sm md:flex md:border-r ${
+            mobilePanel === "chat" ? "flex" : "hidden md:flex"
+          }`}
+        >
           <header className="flex items-center justify-between gap-4 border-b border-[#3c4a42]/30 bg-[#09090b] px-6 py-4">
             <div>
               <h1 className="text-2xl font-bold leading-8 tracking-[-0.01em] text-[#e5e1e4]">
@@ -94,7 +118,13 @@ export function ChatWorkspace() {
           />
         </section>
 
-        <CodeContextPanel />
+        <div
+          className={`min-h-0 min-w-0 flex-1 md:block md:max-w-md lg:max-w-lg ${
+            mobilePanel === "code" ? "block" : "hidden md:block"
+          }`}
+        >
+          <CodeContextPanel />
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { clearClientSession } from "@/lib/auth-session";
 import { dashboardNavItems, isNavItemActive } from "@/lib/dashboard-nav";
 import { DashboardIcon } from "./dashboard-icons";
 import { NavItem } from "./nav-item";
@@ -12,6 +13,13 @@ type SidebarProps = {
 
 export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  function handleEndDemo() {
+    clearClientSession();
+    onMobileClose();
+    router.push("/");
+  }
 
   return (
     <>
@@ -38,7 +46,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
               ChainGuard AI
             </h1>
             <p className="mt-0.5 text-[11px] font-semibold uppercase leading-4 tracking-[0.05em] text-[#bbcabf]">
-              Enterprise Security
+              Demo session
             </p>
           </div>
         </div>
@@ -56,7 +64,14 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
           ))}
         </nav>
 
-        <div className="mt-auto px-6">
+        <div className="mt-auto space-y-3 px-6">
+          <button
+            className="w-full rounded border border-[#3c4a42] px-3 py-2 text-left text-[12px] font-medium text-[#bbcabf] transition-colors hover:border-emerald-500/40 hover:text-emerald-300"
+            onClick={handleEndDemo}
+            type="button"
+          >
+            End demo / Sign out
+          </button>
           <div className="flex items-center gap-3 border-t border-[#3c4a42] py-4">
             <div className="relative size-8 overflow-hidden rounded-full border border-[#3c4a42] bg-[#201f22]">
               <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(16,185,129,0.35)_0%,transparent_50%,rgba(16,185,129,0.15)_100%)]" />

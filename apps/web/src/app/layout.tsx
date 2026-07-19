@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "ChainGuard AI",
-  description: "AI-powered smart contract review platform.",
+  description:
+    "Hackathon prototype: AI smart-contract review agent with demo reports, chat, and risk registry.",
 };
 
 export default function RootLayout({

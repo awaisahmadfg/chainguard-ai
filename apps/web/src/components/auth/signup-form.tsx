@@ -33,7 +33,7 @@ export function SignupForm() {
   async function onSubmit() {
     await new Promise((resolve) => window.setTimeout(resolve, 600));
     establishClientSession();
-    router.push("/authenticated");
+    router.push("/dashboard");
   }
 
   return (

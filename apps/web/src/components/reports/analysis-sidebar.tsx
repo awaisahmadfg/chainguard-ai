@@ -63,13 +63,22 @@ export function AnalysisSidebar() {
         <div className="mb-3 break-all rounded border border-[#27272a] bg-[#18181b] p-3 font-mono text-xs text-[#e5e1e4]">
           0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D
         </div>
-        <Link
-          className="inline-flex items-center gap-1 text-[13px] font-medium leading-[18px] text-emerald-500 transition-colors hover:text-emerald-300"
-          href="/dashboard/registry"
-        >
-          View in Registry
-          <DashboardIcon className="size-3.5" name="link" />
-        </Link>
+        <div className="flex flex-col gap-3">
+          <Link
+            className="inline-flex items-center gap-1 text-[13px] font-medium leading-[18px] text-emerald-500 transition-colors hover:text-emerald-300"
+            href="/dashboard/chat"
+          >
+            Ask AI about findings
+            <DashboardIcon className="size-3.5" name="ai" />
+          </Link>
+          <Link
+            className="inline-flex items-center gap-1 text-[13px] font-medium leading-[18px] text-emerald-500 transition-colors hover:text-emerald-300"
+            href="/dashboard/registry"
+          >
+            View in Registry
+            <DashboardIcon className="size-3.5" name="link" />
+          </Link>
+        </div>
       </section>
     </aside>
   );

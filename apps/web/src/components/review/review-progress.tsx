@@ -85,7 +85,7 @@ export function ReviewProgress({ reviewId }: ReviewProgressProps) {
         <p className="mt-2 text-base leading-6 text-[#bbcabf]">
           {isComplete
             ? "Pipeline finished. Opening your risk report…"
-            : "Running security tools and AI review pipeline. This may take a few minutes."}
+            : "Demo pipeline runs Foundry, Slither, RAG, and AI review in about 15 seconds."}
         </p>
       </header>
 

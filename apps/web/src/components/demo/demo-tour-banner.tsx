@@ -1,31 +1,43 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-
-const TOUR_STORAGE_KEY = "cg_demo_tour_dismissed";
+import { DEMO_TOUR_STORAGE_KEY } from "@/lib/auth-session";
 
 const steps = [
-  { href: "/dashboard/reviews/new", label: "1. Start a review" },
-  { href: "/dashboard/reports", label: "2. Read the AI report" },
-  { href: "/dashboard/chat", label: "3. Ask the security agent" },
-  { href: "/dashboard/registry", label: "4. Browse risk registry" },
+  { href: "/dashboard/reviews/new", label: "1. Start a review", match: "new" },
+  { href: "/dashboard/reports", label: "2. Read the AI report", match: "reports" },
+  { href: "/dashboard/chat", label: "3. Ask the security agent", match: "chat" },
+  {
+    href: "/dashboard/registry",
+    label: "4. Browse risk registry",
+    match: "registry",
+  },
 ] as const;
 
+function isStepActive(pathname: string, match: string) {
+  if (match === "new") {
+    return pathname.includes("/reviews/new") || pathname.includes("/progress");
+  }
+  return pathname.includes(`/dashboard/${match}`);
+}
+
 export function DemoTourBanner() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const dismissed = window.localStorage.getItem(TOUR_STORAGE_KEY);
+    const dismissed = window.localStorage.getItem(DEMO_TOUR_STORAGE_KEY);
     setVisible(dismissed !== "1");
   }, []);
 
   function dismiss() {
-    window.localStorage.setItem(TOUR_STORAGE_KEY, "1");
+    window.localStorage.setItem(DEMO_TOUR_STORAGE_KEY, "1");
     setVisible(false);
   }
 
-  if (!visible) {
+  if (!visible || pathname.includes("/dashboard/chat")) {
     return null;
   }
 
@@ -53,15 +65,23 @@ export function DemoTourBanner() {
         </button>
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
-        {steps.map((step) => (
-          <Link
-            className="rounded-md border border-[#3c4a42] bg-[#09090b]/80 px-3 py-2 text-[12px] font-medium text-[#e5e1e4] transition-colors hover:border-emerald-500/50 hover:text-emerald-300"
-            href={step.href}
-            key={step.href}
-          >
-            {step.label}
-          </Link>
-        ))}
+        {steps.map((step) => {
+          const active = isStepActive(pathname, step.match);
+
+          return (
+            <Link
+              className={`rounded-md border px-3 py-2 text-[12px] font-medium transition-colors ${
+                active
+                  ? "border-emerald-500/60 bg-emerald-500/15 text-emerald-300"
+                  : "border-[#3c4a42] bg-[#09090b]/80 text-[#e5e1e4] hover:border-emerald-500/50 hover:text-emerald-300"
+              }`}
+              href={step.href}
+              key={step.href}
+            >
+              {step.label}
+            </Link>
+          );
+        })}
       </div>
     </section>
   );

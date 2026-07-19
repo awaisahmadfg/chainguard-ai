@@ -11,10 +11,14 @@ import { AuthInput } from "./auth-input";
 import { DemoGoogleButton } from "./demo-google-button";
 import { PasswordInput } from "./password-input";
 import { establishClientSession } from "@/lib/auth-session";
-import {
-  loginSchema,
-  type LoginValues,
-} from "./auth-schemas";
+import { loginSchema, type LoginValues } from "./auth-schemas";
+
+function safeInternalPath(from: string | null) {
+  if (!from || !from.startsWith("/") || from.startsWith("//")) {
+    return "/dashboard";
+  }
+  return from;
+}
 
 export function LoginForm() {
   const router = useRouter();
@@ -33,16 +37,18 @@ export function LoginForm() {
   });
 
   async function onSubmit() {
-    await new Promise((resolve) => window.setTimeout(resolve, 600));
+    await new Promise((resolve) => window.setTimeout(resolve, 450));
     establishClientSession();
-    const from = searchParams.get("from");
-    const nextPath =
-      from && from.startsWith("/dashboard") ? from : "/authenticated";
-    router.push(nextPath);
+    router.push(safeInternalPath(searchParams.get("from")));
   }
 
   return (
     <form className="flex w-full flex-col" noValidate onSubmit={handleSubmit(onSubmit)}>
+      <p className="mb-4 rounded-md border border-emerald-500/20 bg-emerald-500/5 px-3 py-2 text-[12px] leading-5 text-[#bbcabf]">
+        Demo tip: any email + password (8+ chars) works. Or use{" "}
+        <span className="text-emerald-400">Enter live demo</span> below.
+      </p>
+
       <div className="mb-4">
         <Controller
           control={control}
@@ -95,7 +101,7 @@ export function LoginForm() {
       </div>
 
       <AuthButton
-        className="mb-6 hover:bg-emerald-600"
+        className="mb-4 hover:bg-emerald-600"
         disabled={!isValid}
         isLoading={isSubmitting}
         loadingLabel="Signing in..."

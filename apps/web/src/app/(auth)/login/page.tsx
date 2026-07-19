@@ -1,7 +1,8 @@
-import { Suspense } from "react";
 import Link from "next/link";
+import { Suspense } from "react";
 import { AuthIcon } from "@/components/auth/auth-icons";
 import { LoginForm } from "@/components/auth/login-form";
+import { EnterDemoButton } from "@/components/demo/enter-demo-button";
 
 export default function LoginPage() {
   return (
@@ -23,23 +24,20 @@ export default function LoginPage() {
           <h2 className="text-xl font-semibold leading-7 text-[#e5e1e4]">
             Sign in to your account
           </h2>
-          <p className="mt-2 text-sm text-[#bbcabf]">
-            Judges: skip forms via{" "}
-            <Link className="text-emerald-400 hover:text-emerald-300" href="/">
-              Enter live demo
-            </Link>{" "}
-            on the home page.
-          </p>
         </div>
 
-        <Suspense fallback={<div className="h-64 w-full animate-pulse rounded bg-[#18181b]" />}>
+        <Suspense fallback={<p className="text-sm text-[#bbcabf]">Loading…</p>}>
           <LoginForm />
         </Suspense>
+
+        <div className="mt-6 w-full border-t border-[#27272a] pt-6">
+          <EnterDemoButton className="flex w-full items-center justify-center gap-2 rounded bg-emerald-500/15 px-4 py-3 text-[13px] font-medium leading-[18px] tracking-[0.01em] text-emerald-400 transition-colors hover:bg-emerald-500/25 disabled:cursor-not-allowed disabled:opacity-60" />
+        </div>
       </div>
 
       <footer className="flex flex-col items-center justify-center gap-2 text-center">
         <p className="text-[11px] font-semibold uppercase leading-4 tracking-[0.05em] text-[#bbcabf]">
-          © 2024 ChainGuard AI. Secure Audit Protocol.
+          © 2026 ChainGuard AI. Secure Audit Protocol.
         </p>
         <div className="flex gap-4">
           <Link

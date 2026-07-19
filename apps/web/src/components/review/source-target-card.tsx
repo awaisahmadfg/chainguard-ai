@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { DashboardIcon } from "@/components/dashboard/dashboard-icons";
@@ -22,6 +22,7 @@ export function SourceTargetCard({
   uploadError,
 }: SourceTargetCardProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const sourceType = form.watch("sourceType");
   const {
     control,
@@ -40,7 +41,10 @@ export function SourceTargetCard({
       return;
     }
 
-    onFilesChange(Array.from(selectedFiles));
+    const solidityFiles = Array.from(selectedFiles).filter((file) =>
+      file.name.toLowerCase().endsWith(".sol"),
+    );
+    onFilesChange(solidityFiles);
   }
 
   return (
@@ -145,9 +149,26 @@ export function SourceTargetCard({
             type="file"
           />
           <div
-            className={`rounded-lg border border-dashed p-5 ${
-              uploadError ? "border-red-400/50" : "border-[#2a2a2c]"
+            className={`rounded-lg border border-dashed p-5 transition-colors ${
+              uploadError
+                ? "border-red-400/50"
+                : isDragging
+                  ? "border-emerald-500/60 bg-emerald-500/5"
+                  : "border-[#2a2a2c]"
             }`}
+            onDragLeave={(event) => {
+              event.preventDefault();
+              setIsDragging(false);
+            }}
+            onDragOver={(event) => {
+              event.preventDefault();
+              setIsDragging(true);
+            }}
+            onDrop={(event) => {
+              event.preventDefault();
+              setIsDragging(false);
+              handleFileSelect(event.dataTransfer.files);
+            }}
           >
             <button
               className="flex w-full flex-col items-center justify-center py-6 transition-colors"
@@ -159,7 +180,7 @@ export function SourceTargetCard({
                 Drag &amp; drop Solidity files here
               </p>
               <p className="mt-1 text-sm leading-5 text-[#bbcabf]">
-                or click to browse local files
+                or click to browse local `.sol` files
               </p>
               <span className="mt-4 rounded border border-[#3c4a42] bg-[#353437] px-4 py-2 text-[13px] font-medium leading-[18px] text-[#e5e1e4] transition-colors hover:border-emerald-500/50">
                 Select Files

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { DemoTourBanner } from "@/components/demo/demo-tour-banner";
 import { ReviewsTable } from "@/components/dashboard/reviews-table";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { reviews } from "@/lib/mock-reviews";
@@ -7,8 +6,6 @@ import { reviews } from "@/lib/mock-reviews";
 export default function DashboardPage() {
   return (
     <>
-      <DemoTourBanner />
-
       <section className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="text-4xl font-semibold leading-[44px] tracking-[-0.02em] text-[#e5e1e4]">

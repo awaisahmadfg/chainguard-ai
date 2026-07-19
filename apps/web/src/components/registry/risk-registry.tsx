@@ -18,7 +18,7 @@ export function RiskRegistry() {
   const [chainFilter, setChainFilter] = useState<(typeof chainOptions)[number]>(
     "All Chains",
   );
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [riskFilter, setRiskFilter] = useState<(typeof riskOptions)[number]>(
     "Any Risk Level",
   );
@@ -180,16 +180,35 @@ export function RiskRegistry() {
         selectedAddress={selectedRow.address}
       />
 
+      {filteredRows.length === 0 ? (
+        <section className="rounded-lg border border-dashed border-[#2a2a2c] bg-[#0c0c0e] px-4 py-10 text-center">
+          <p className="text-sm text-[#bbcabf]">
+            No contracts match these filters.
+          </p>
+          <button
+            className="mt-3 text-[13px] font-medium text-emerald-400 hover:text-emerald-300"
+            onClick={() => {
+              setChainFilter("All Chains");
+              setRiskFilter("Any Risk Level");
+            }}
+            type="button"
+          >
+            Reset filters
+          </button>
+        </section>
+      ) : null}
+
       <section className="flex w-full items-center justify-between rounded-lg border border-[#27272a] bg-[#0c0c0e] px-4 py-3">
         <p className="text-[13px] leading-5 text-[#bbcabf]">
-          Demo registry shows the filtered mock set only.
+          Demo registry shows the filtered mock set only. Click a row to open
+          details.
         </p>
       </section>
 
       <footer className="mt-auto w-full border-t border-[#3c4a42] pt-4">
         <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[11px] font-semibold leading-4 tracking-[0.05em] text-[#e5e1e4]">
-            © 2024 ChainGuard AI. Secure Audit Protocol.
+            © 2026 ChainGuard AI. Secure Audit Protocol.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link

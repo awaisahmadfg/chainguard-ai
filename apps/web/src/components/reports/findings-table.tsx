@@ -43,7 +43,7 @@ export function FindingsTable() {
       return [];
     }
 
-    return reportFindings;
+    return reportFindings.filter((finding) => finding.source === activeTab);
   }, [activeTab]);
 
   return (
@@ -51,6 +51,11 @@ export function FindingsTable() {
       <div className="flex overflow-x-auto border-b border-[#27272a]">
         {tabs.map((tab) => {
           const isActive = tab.id === activeTab;
+          const count =
+            tab.id === "rag"
+              ? ragCitations.length
+              : reportFindings.filter((finding) => finding.source === tab.id)
+                  .length;
 
           return (
             <button
@@ -64,6 +69,9 @@ export function FindingsTable() {
               type="button"
             >
               {tab.label}
+              <span className="ml-2 font-mono text-[11px] text-[#86948a]">
+                {count}
+              </span>
             </button>
           );
         })}
@@ -86,6 +94,10 @@ export function FindingsTable() {
               </article>
             ))}
           </div>
+        ) : visibleRows.length === 0 ? (
+          <p className="rounded-lg border border-dashed border-[#2a2a2c] px-4 py-8 text-center text-sm text-[#bbcabf]">
+            No {activeTab} findings in this demo report.
+          </p>
         ) : (
           <div className="overflow-hidden rounded-lg border border-[#27272a]">
             <div className="w-full overflow-x-auto">
@@ -117,7 +129,7 @@ export function FindingsTable() {
                           ? ""
                           : "border-b border-[#27272a]"
                       }`}
-                      key={`${finding.functionName}-${finding.line}`}
+                      key={`${finding.source}-${finding.functionName}-${finding.line}`}
                     >
                       <td className="px-4 py-4">
                         <span
@@ -126,7 +138,9 @@ export function FindingsTable() {
                           {finding.severity.toUpperCase()}
                         </span>
                       </td>
-                      <td className="px-4 py-4 font-medium">{finding.functionName}</td>
+                      <td className="px-4 py-4 font-medium">
+                        {finding.functionName}
+                      </td>
                       <td className="px-4 py-4 font-mono text-[#bbcabf]">
                         {finding.line}
                       </td>

@@ -1,41 +1,37 @@
 import Link from "next/link";
 import { AuthCard } from "@/components/auth/auth-card";
-import { AuthLogo } from "@/components/auth/auth-logo";
 
 export default function PrivacyPage() {
   return (
     <AuthCard>
-      <div className="mb-6 flex flex-col items-center text-center">
-        <AuthLogo />
-        <h1 className="mt-6 text-2xl font-semibold tracking-[-0.02em] text-[#e5e1e4]">
-          Privacy Policy
-        </h1>
-        <p className="mt-2 text-sm leading-6 text-[#bbcabf]">
-          Prototype notice for demo and hackathon review.
-        </p>
-      </div>
+      <h1 className="text-2xl font-semibold tracking-[-0.01em] text-[#e5e1e4]">
+        Privacy Policy
+      </h1>
+      <p className="mt-2 text-sm leading-6 text-[#bbcabf]">
+        Prototype notice for ChainGuard AI (hackathon demo).
+      </p>
 
-      <div className="space-y-4 text-sm leading-6 text-[#bbcabf]">
+      <div className="mt-6 space-y-4 text-sm leading-6 text-[#bbcabf]">
         <p>
-          This demo stores a local browser cookie (`cg_session`) only to unlock
-          dashboard routes. No server-side account database is used.
+          This build is a frontend prototype. Auth, reviews, chat replies, and
+          registry data are mocked in the browser. No production backend stores
+          personal data for this demo.
         </p>
         <p>
-          Form inputs stay in the browser session for UI validation and
-          navigation. Review findings, chat answers, and registry rows are mock
-          content shipped with the app.
+          Session state uses a local cookie (`cg_session`) so dashboard routes
+          can be protected in the demo. Clear site cookies to reset.
         </p>
         <p>
-          When a production backend is added, authentication, storage, and data
-          retention policies will be published here.
+          Do not enter real secrets, private keys, or production credentials in
+          this environment.
         </p>
       </div>
 
       <Link
-        className="mt-8 inline-flex text-sm font-medium text-emerald-500 transition-colors hover:text-emerald-300"
+        className="mt-8 inline-flex text-sm font-medium text-emerald-400 transition-colors hover:text-emerald-300"
         href="/login"
       >
-        Back to Login
+        ← Back to sign in
       </Link>
     </AuthCard>
   );

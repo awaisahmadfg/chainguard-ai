@@ -37,7 +37,7 @@ export function SettingsPage() {
       <footer className="mt-auto w-full border-t border-[#3c4a42] pt-4">
         <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[11px] font-semibold leading-4 tracking-[0.05em] text-[#e5e1e4]">
-            © 2024 ChainGuard AI. Secure Audit Protocol.
+            © 2026 ChainGuard AI. Secure Audit Protocol.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link

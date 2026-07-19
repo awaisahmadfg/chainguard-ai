@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useState } from "react";
+import { DemoTourBanner } from "@/components/demo/demo-tour-banner";
 import { GridBackground } from "@/components/ui/grid-background";
 import { Sidebar } from "./sidebar";
 import { Topbar } from "./topbar";
@@ -25,6 +26,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
         <main className="relative flex min-h-full flex-1 flex-col overflow-y-auto bg-[#09090b]">
           <GridBackground />
           <div className="relative z-10 flex min-h-full flex-1 flex-col px-4 py-6 sm:px-6 lg:py-8">
+            <DemoTourBanner />
             {children}
           </div>
         </main>
